@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/L.Control.Locate.min.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
+        <!-- Additions -->
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/leaflet-sidebar.css" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/L.Control.Locate.scss" />
+        
+        <style>
+        body {
+                    padding: 0;
+                    margin: 0;
+
+                }
+
+        html, body, #map {
+                    height: 850px;
+                    font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+                }
+
+        .lorem {
+                    font-style: italic;
+                    color: #AAA;
+                }
+            /*HEADER STYLE*/
+        #header_wrap {
+		height: 60px;
+		background-color: #4B6F44;
+		}
+	/*END OF HEADER STYLE*/ 
+            	/*HEADER STYLE*/
+        #footer_wrap {
+		height: 60px;
+		background-color: #4B6F44;
+		}
+	/*END OF HEADER STYLE*/ 
+        </style>
+        <title></title>
+    </head>
+    <body>
+    <!-- HEADER -->
+		<div id="header_wrap" class="outer">
+		    <header class="inner">
+
+		    </header>
+		</div>
+	<!-- END of HEADER -->
+        
+                <!-- Tab panes -->
+    <div id="sidebar" class="sidebar collapsed">
+                <!-- Nav tabs -->
+        <div class="sidebar-tabs">
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-info-circle"></i></a></li>
+                <li><a href="#creator" role="tab"><i class="fa fa-user-o"></i></a></li>
+                <li class="disabled"><a href="#legend" role="tab"><i class="fa fa-bars"></i></a></li>
+
+            </ul>
+
+            <ul role="tablist">
+                <li class="disabled"><a href="#settings" role="tab"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- Tab panes -->
+        <div class="sidebar-content">
+            <div class="sidebar-pane" id="home">
+                <h1 class="sidebar-header">
+                    WATER ZONES MAP - BARBADOS - UNRATIFIED
+                    <span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+
+                <p>This map illustrates the water zones in the island of <strong>Barbados</strong>.</p>
+
+                <p>There are 5 water zones in Barbados:</p>
+
+                <p><strong>Zone A</strong>- Requirements: Septic tank with carbon activated filter bed and a well not more than 15 ft. (4.5m) deep.</p>
+
+                <p><strong>Zone B</strong>- Requirements: Septic tank and a well not more than 20 ft. (6.0m) deep.</p>
+                <p><strong>Zone C</strong>- Requirements: Two wells one each for sewage and domestic waste (kitchen, bathroom, laundry) with each well a maximum of 40 ft. (12.1m) deep.</p>
+                <p><strong>Zone D and E</strong>- Requirements: A single well of no specified depth.</p>
+            
+                <p> To zoom to your location and <strong>find your current water zone </strong> press the marker icon on right of the screen.</p>
+                <p>This map is <strong>NOT FOR OFFICIAL USAGE</strong> and should not be used as your final point for determining your water zone. For more information, ensure to check with the <a href="http://www.townplanning.gov.bb/">Town Planning Website</a>. This data was obtained from <a href="http://geonode.iwlearn.org/catalogue/csw_to_extra_format/d4c4716c-6f6a-11e9-8d7d-000d3ab6a624/TM-BRB_Ground%20Water%20Protection%20Zones%20-%201997-1:10000.html">an online source</a>.</p>
+            </div>
+
+            <div class="sidebar-pane" id="legend">
+                <h1 class="sidebar-header">Legend<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+
+            <div class="sidebar-pane" id="creator">
+                <h1 class="sidebar-header">About Creator<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+		          <p>The <a href="https://kmrgenterprises.weebly.com/">creator</a> has a keen interest in the water zone requirements having worked at length in the construction field where this information is particularly necessary to comply with local Town Planning requirements.</p>
+                    <p>It was created using <a href="http://leafletjs.com/">Leaflet</a> and QGIS, particularly the <a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web plugin</a>.</p>
+
+            </div>
+
+            <div class="sidebar-pane" id="settings">
+                <h1 class="sidebar-header">Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+            </div>
+        </div>
+    </div>
+        <div id="map" class="sidebar-map">
+        </div>
+        <!-- End of Tab panes -->
+
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
+        <script src="data/Water_zones_new_1.js"></script>
+        <script src="js/leaflet-sidebar.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+            highlightLayer.openPopup();
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:2
+        }).fitBounds([[12.901352133629826,-60.18568748883145],[13.473718204407005,-59.110986019466296]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 2,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+        function pop_Water_zones_new_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <th scope="row">AREA</th>\
+                        <td>' + (feature.properties['ZONE'] !== null ? autolinker.link(feature.properties['ZONE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Water_zones_new_1_0(feature) {
+            switch(String(feature.properties['ZONE'])) {
+                case 'Zone A':
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(240,36,17,0.6)',
+            }
+                    break;
+                case 'Zone B':
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(243,171,26,0.6)',
+            }
+                    break;
+                case 'Zone C':
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(239,232,21,0.6)',
+            }
+                    break;
+                case 'Zone D':
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(61,144,75,0.6)',
+            }
+                    break;
+                case 'Zone E':
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(14,106,212,0.6)',
+            }
+                    break;
+                default:
+                    return {
+                pane: 'pane_Water_zones_new_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,0.6)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(155,237,13,0.6)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_Water_zones_new_1');
+        map.getPane('pane_Water_zones_new_1').style.zIndex = 401;
+        map.getPane('pane_Water_zones_new_1').style['mix-blend-mode'] = 'normal';
+        var layer_Water_zones_new_1 = new L.geoJson(json_Water_zones_new_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_Water_zones_new_1',
+            layerName: 'layer_Water_zones_new_1',
+            pane: 'pane_Water_zones_new_1',
+            onEachFeature: pop_Water_zones_new_1,
+            style: style_Water_zones_new_1_0,
+        });
+        bounds_group.addLayer(layer_Water_zones_new_1);
+        map.addLayer(layer_Water_zones_new_1);
+        //var osmGeocoder = new L.Control.Geocoder({
+           // collapsed: true,
+            //position: 'topleft',
+            //text: 'Search',
+            //title: 'Testing'
+        //}).addTo(map);
+           
+        //document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        //.className += ' fa fa-search';
+        //document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        //.title += 'Search for a place';
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'Water_zones_new<br /><table><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_ZoneA0.png" /></td><td>Zone A</td></tr><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_ZoneB1.png" /></td><td>Zone B</td></tr><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_ZoneC2.png" /></td><td>Zone C</td></tr><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_ZoneD3.png" /></td><td>Zone D</td></tr><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_ZoneE4.png" /></td><td>Zone E</td></tr><tr><td style="text-align: center;"><img src="legend/Water_zones_new_1_5.png" /></td><td></td></tr></table>': layer_Water_zones_new_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        setBounds();
+        var sidebar = L.control.sidebar('sidebar').addTo(map);
+        </script>
+    </body>
+     <!-- FOOTER -->
+		<div id="footer_wrap" class="outer">
+		    <header class="inner">
+		    </header>
+		</div>
+	<!-- END of FOOTER -->
+</html>
